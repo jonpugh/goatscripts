@@ -1,0 +1,15 @@
+# Test the scripts.
+
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  
+  run-with-summary:
+    runs-on: ubuntu-latest
+    steps:
+    - name: run-with-summary 
+      run: |
+        ./src/run-with-summary ping google.com -5
