@@ -85,7 +85,7 @@ start_time=$(date '+%s')
 # Execute command and show output in real time while capturing it
 echo "Executing: $command"
 set -o pipefail
-output=$(eval "$command" 2>&1 | tee /dev/tty)
+output=$(eval "$command" 2>&1 | tee >(cat >&2))
 exit_code=$?
 
 # Record end time
