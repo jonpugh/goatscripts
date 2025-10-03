@@ -1,0 +1,76 @@
+#!/bin/bash
+
+success_message=${SUCCESS:-"Command executed"}
+error_message=${ERROR:-"Command failed"}
+
+# Print extra stuff like user and hostname in the summary.
+debug=${DEBUG:-""}
+echo_summary=${SUMMARY:-""}
+
+# Format output into markdown report
+format_output() {
+    local command="$1"
+    local output="$2"
+    local exit_code="$3"
+    local start_time="$4"
+    local end_time="$5"
+    local duration=$((end_time - start_time))
+
+    local heading_message="$error_message"
+    if [ "$exit_code" -eq 0 ]; then
+        heading_message="$success_message"
+    fi
+
+    echo "# ${heading_message}"
+    echo "\`\`\`"
+    echo "$command"
+    echo "\`\`\`"
+    echo
+    echo "\`\`\`"
+    echo "$output"
+    echo "\`\`\`"
+    echo
+    echo "| Command | \`$command\`   |"
+    echo "|--------|--------|"
+    echo "| Exit Code | \`$exit_code\` |"
+    echo "| Start Time | $start_time |"
+    echo "| End Time | $end_time |"
+    echo "| Duration | ${duration}s |"
+
+    if [[ -n $debug ]]; then
+      echo "| User | $(whoami) |"
+      echo "| Host | $(hostname -f) |"
+      echo "| Directory | $(pwd) |"
+    fi
+}
+
+# Get the command from arguments
+command="$@"
+
+if [ -z "$command" ]; then
+    echo "Error: No command provided"
+    exit 1
+fi
+
+# Record start time
+start_time=$(date '+%s')
+
+# Execute command and show output in real time while capturing it
+set -o pipefail
+output=$(eval "$command" 2>&1 | tee /dev/tty)
+exit_code=$?
+
+# Record end time
+end_time=$(date '+%s')
+
+# Generate markdown report
+formatted_output=$(format_output "$command" "$output" "$exit_code" "$start_time" "$end_time")
+echo "$formatted_output" > /tmp/summary.md
+
+if [[ -n $echo_summary ]]; then
+  echo "$formatted_output"
+fi
+echo
+echo "Markdown report saved to /tmp/summary.md"
+
+exit "$exit_code"
