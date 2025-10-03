@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: run-with-summary 
+    - name: run-with-summary
+      env:
+        SUCCESS: "Pinging Google Passed"
+        FAILURE: "Ping Failed"
+        SUMMARY: yes
       run: |
-        ./src/run-with-summary ping google.com -5
+        ./src/run-with-summary ping google.com -n5
