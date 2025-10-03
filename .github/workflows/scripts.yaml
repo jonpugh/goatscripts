@@ -23,7 +23,7 @@ jobs:
       run: |
         set -o pipefail
         set +e
-        ./src/run-with-summary ps -a
+        ./src/run-with-summary ls -la
         exit_code=$?
         cat $FILE >> $GITHUB_STEP_SUMMARY
         exit $exit_code
@@ -35,7 +35,7 @@ jobs:
     - name: run-with-summary failure
       env:
         SUCCESS: "Ping Succeeded :check:"
-        ERROR: "Ping Failed :x:"
+        ERROR: "Ping Failed, as expected :x:"
       run: |
         set -o pipefail
         set +e
