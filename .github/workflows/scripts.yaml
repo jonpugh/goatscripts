@@ -48,4 +48,3 @@ jobs:
         else
           echo "Exit code is not 0, as expected."
         fi
-    - name: Exit
