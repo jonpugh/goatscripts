@@ -9,16 +9,33 @@ jobs:
   
   run-with-summary:
     runs-on: ubuntu-latest
+
+    # Settings for run-with-summary script.
+    env:
+      FILE: report-${{ github.run_id }}.md
+      SUCCESS: "Ping Successful"
+      FAILURE: "Ping Failed"
+      SUMMARY: yes
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: run-with-summary
+      run: |
+        set -o pipefail
+        set +e
+        ./src/run-with-summary ping github.com -c5
+        exit_code=$?
+        cat $FILE >> $GITHUB_STEP_SUMMARY
+        exit $exit_code
+
+  run-with-summary-fail:
+    runs-on: ubuntu-latest
     env:
       FILE: report-${{ github.run_id }}.md
 
     steps:
     - uses: actions/checkout@v4
-    - name: run-with-summary
-      env:
-        SUCCESS: "Pinging Google Passed"
-        FAILURE: "Ping Failed"
-        SUMMARY: yes
+    - name: run-with-summary failure
       run: |
         set -o pipefail
         set +e
