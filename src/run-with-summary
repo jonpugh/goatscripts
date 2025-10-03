@@ -27,8 +27,8 @@ Environment variables:
 Examples:
   run-with-summary ls -la
 
-  SUCCESS="Deploy complete" \
-  ERROR="Deploy failed" \
+  SUCCESS="w3.org is online" \
+  ERROR="w3.org unavailable!" \
   DEBUG=1 \
   SUMMARY=1 \
     run-with-summary ping w3.org -c3
