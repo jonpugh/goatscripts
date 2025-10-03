@@ -9,6 +9,9 @@ jobs:
   
   run-with-summary:
     runs-on: ubuntu-latest
+    env:
+      FILE: report-${{ github.run_id }}.md
+
     steps:
     - uses: actions/checkout@v4
     - name: run-with-summary
@@ -17,7 +20,6 @@ jobs:
         SUCCESS: "Pinging Google Passed"
         FAILURE: "Ping Failed"
         SUMMARY: yes
-        FILE: report-${{ github.run_id }}.md
       run: |
         ./src/run-with-summary ping w3.org -c5
 
