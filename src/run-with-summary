@@ -7,20 +7,23 @@ Usage: run-with-summary <command and args>
 Executes the given command, streams its output, and writes a Markdown summary to $FILE.
 
 Environment variables:
-  SUCCESS           Custom success heading (default: "Command executed").
-  ERROR             Custom error heading (default: "Command failed").
+  HEADING           Custom text for the h1 tag. (default: "Running Command...")
+  SUMMARY           Short text to display below the header.
+  SUCCESS           Custom success message (default: "Command succeeded").
+  ERROR             Custom error message (default: "Command failed").
   DEBUG             If set (non-empty), include User/Host/Directory in the summary.
-  SUMMARY           If set (non-empty), echo the Markdown summary to stdout after execution.
   FILE              Markdown report file (default: /tmp/summary.md
 
 Examples:
-  run-with-summary ls -la
+  run-with-summary scripts/deploy.sh
 
-  SUCCESS="w3.org is online" \
-  ERROR="w3.org unavailable!" \
+  HEADING="Deployment" \
+  SUMMARY="Deploy script running as an example." \
+  SUCCESS="Deploy successful! :rocket:" \
+  ERROR="DEPLOY FAILED! :x:" \
   DEBUG=1 \
-  SUMMARY=1 \
-    run-with-summary ping w3.org -c3
+  FILE=reports/$(date).md \
+    run-with-summary scripts/deploy.sh
 
 USAGE
 }
@@ -28,42 +31,39 @@ USAGE
 set -e
 
 # Customize the success and error messages.
-success_message=${SUCCESS:-"Command executed"}
+command="$@"
+heading_message=${HEADING:-"Command executed"}
+summary=${SUMMARY:-"Started $(date)"}
+success_message=${SUCCESS:-"Command executed successfully."}
 error_message=${ERROR:-"Command failed"}
 
 # Print extra stuff like user and hostname in the summary.
 debug=${DEBUG:-""}
 
 # Print the markdown summary after the command output.
-echo_summary=${SUMMARY:-""}
 temp_report_file=${FILE:-"/tmp/summary.md"}
+
+if [ -z "$command" ]; then
+    usage
+    exit 1
+fi
 
 # Format output into markdown report
 format_output() {
     local command="$1"
-    local output="$2"
-    local exit_code="$3"
-    local start_time="$4"
-    local end_time="$5"
+    local exit_code="$2"
+    local start_time="$3"
+    local end_time="$4"
     local duration=$((end_time - start_time))
     
     local start_date=$(date -d "@$start_time" '+%Y-%m-%d %H:%M:%S %Z' 2>/dev/null || date -r $start_time '+%Y-%m-%d %H:%M:%S %Z')
     local end_date=$(date -d "@$end_time" '+%Y-%m-%d %H:%M:%S %Z' 2>/dev/null || date -r $end_time '+%Y-%m-%d %H:%M:%S %Z')
 
-    local heading_message="$error_message"
+    local message="$error_message"
     if [ "$exit_code" -eq 0 ]; then
-        heading_message="$success_message"
+        message="$success_message"
     fi
 
-    echo "# ${heading_message}"
-    echo "\`\`\`"
-    echo "$command"
-    echo "\`\`\`"
-    echo
-    echo "\`\`\`"
-    echo "$output"
-    echo "\`\`\`"
-    echo
     echo "| Command    | \`$command\`"
     echo "|------------|-----------------------"
     echo "| Exit Code  | \`$exit_code\`"
@@ -76,21 +76,11 @@ format_output() {
       echo "| Host       | $(hostname -f)"
       echo "| Directory  | $(pwd)"
     fi
+    echo
+    echo $message
 }
 
-# Get the command from arguments
-command="$@"
 
-# Secondary help guard: if exactly one argument and it is -h/--help, show usage and exit 0
-if [ "$command" = "-h" ] || [ "$command" = "--help" ]; then
-    usage
-    exit 0
-fi
-
-if [ -z "$command" ]; then
-    usage
-    exit 1
-fi
 
 # Record start time
 start_time=$(date '+%s')
@@ -99,31 +89,23 @@ start_time=$(date '+%s')
 # Use a temporary file to store output
 temp_output_file=$(mktemp)
 
-# Execute command and capture output while displaying it in realtime
+echo "# ${heading_message}"
+echo "${summary}"
+echo "\`\`\`"
+echo "$command"
+echo "\`\`\`"
+echo
+echo "\`\`\`"
+
 set -o pipefail
-if command -v stdbuf >/dev/null 2>&1; then
-  command="stdbuf -oL $command"
-fi
-
-$command 2>&1 | tee "$temp_output_file"
+$command
 exit_code=${PIPESTATUS[0]}
+echo "\`\`\`"
 
-# Read the output from temporary file
-output=$(<"$temp_output_file")
-rm "$temp_output_file"
-
-
-# Record end time
 end_time=$(date '+%s')
 
 # Generate markdown report
-formatted_output=$(format_output "$command" "$output" "$exit_code" "$start_time" "$end_time")
-echo "$formatted_output" > $temp_report_file
+format_output "$command" "$exit_code" "$start_time" "$end_time"
 
-if [[ -n $echo_summary ]]; then
-  echo "$formatted_output"
-fi
-echo
-echo "Markdown report saved to $temp_report_file"
-
+# Exit same as command.
 exit "$exit_code"
