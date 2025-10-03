@@ -94,8 +94,6 @@ fi
 start_time=$(date '+%s')
 
 # Execute command and show output in real time while capturing it
-echo "Executing: $command"
-
 # Use a temporary file to store output
 temp_output_file=$(mktemp)
 
