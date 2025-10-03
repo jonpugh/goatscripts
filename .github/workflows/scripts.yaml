@@ -16,5 +16,7 @@ jobs:
         SUCCESS: "Pinging Google Passed"
         FAILURE: "Ping Failed"
         SUMMARY: yes
+        FILE: report-${{ github.run_id }}.md
       run: |
         ./src/run-with-summary ping google.com -n5
+        cat $FILE >> $GITHUB_STEP_SUMMARY
