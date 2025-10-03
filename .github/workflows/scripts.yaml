@@ -21,7 +21,7 @@ jobs:
         SUMMARY: yes
       run: |
         set -eo pipefail
-        ./src/run-with-summary ping w3.org -c5
+        ./src/run-with-summary ping w3.org -c5 | echo ""
         exit_code=$?
         cat $FILE >> $GITHUB_STEP_SUMMARY
         exit $exit_code
