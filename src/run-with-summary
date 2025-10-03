@@ -30,17 +30,17 @@ format_output() {
     echo "$output"
     echo "\`\`\`"
     echo
-    echo "| Command | \`$command\`   |"
-    echo "|--------|--------|"
-    echo "| Exit Code | \`$exit_code\` |"
-    echo "| Start Time | $start_time |"
-    echo "| End Time | $end_time |"
-    echo "| Duration | ${duration}s |"
+    echo "| Command    | \`$command\`"
+    echo "|------------|-----------------------"
+    echo "| Exit Code  | \`$exit_code\`"
+    echo "| Start Time | $(date -r $start_time '+%Y-%m-%d %H:%M:%S %Z')"
+    echo "| End Time   | $(date -r $end_time '+%Y-%m-%d %H:%M:%S %Z')"
+    echo "| Duration   | ${duration}s"
 
     if [[ -n $debug ]]; then
-      echo "| User | $(whoami) |"
-      echo "| Host | $(hostname -f) |"
-      echo "| Directory | $(pwd) |"
+      echo "| User       | $(whoami) "
+      echo "| Host       | $(hostname -f)"
+      echo "| Directory  | $(pwd)"
     fi
 }
 
