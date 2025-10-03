@@ -21,15 +21,11 @@ jobs:
     - uses: actions/checkout@v4
     - name: run-with-summary
       env:
+        HEADING: "Running Tests"
         SUCCESS: "Test Command Succeeded :white_check_mark:"
         ERROR: "Test Command Failed! :x:"
       run: |
-        set -o pipefail
-        set +e
-        run-with-summary ls -la
-        exit_code=$?
-        cat $FILE >> $GITHUB_STEP_SUMMARY
-        exit $exit_code
+        run-with-summary ls -la >> $GITHUB_STEP_SUMMARY
 
   run-with-summary-fail:
     name: run-with-summary failure
@@ -38,46 +34,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: run-with-summary failure
       env:
+        HEADING: "Confirming command failure"
         SUCCESS: "Command Succeeded :white_check_mark:"
         ERROR: "Command Failed, as expected :x:"
       run: |
-        set -o pipefail
-        set +e
-        run-with-summary not-a-command
-        exit_code=$?
-        cat $FILE >> $GITHUB_STEP_SUMMARY
-        echo "EXIT_CODE=$exit_code" >> $GITHUB_ENV 
-    - name: exit
-      run: |
-        if [ "$EXIT_CODE" == "0" ]; then
-          echo "Script was expected to fail. Something is wrong."
-          exit 1
-        else
-          echo "Exit code is not 0, as expected."
-        fi
-
-# @TODO: Real-time output on github actions does not work. You can use this workflow to work on it.
-#  run-with-summary-fail-long:
-#    name: run-with-summary long failure
-#    runs-on: ubuntu-latest
-#    steps:
-#    - uses: actions/checkout@v4
-#    - name: run-with-summary failure
-#      env:
-#        SUCCESS: "Ping Succeeded :white_check_mark:"
-#        ERROR: "Ping Failed, as expected :x:"
-#      run: |
-#        set -o pipefail
-#        set +e
-#        run-with-summary ping w3.org -c4
-#        exit_code=$?
-#        cat $FILE >> $GITHUB_STEP_SUMMARY
-#        echo "EXIT_CODE=$exit_code" >> $GITHUB_ENV
-#    - name: exit
-#      run: |
-#        if [ "$EXIT_CODE" == "0" ]; then
-#          echo "Script was expected to fail. Something is wrong."
-#          exit 1
-#        else
-#          echo "Exit code is not 0, as expected."
-#        fi
+        run-with-summary not-a-command >> $GITHUB_STEP_SUMMARY
