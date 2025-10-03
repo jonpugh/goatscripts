@@ -77,7 +77,7 @@ format_output() {
 }
 
 # Get the command from arguments
-command="$*"
+command="$@"
 
 # Secondary help guard: if exactly one argument and it is -h/--help, show usage and exit 0
 if [ "$command" = "-h" ] || [ "$command" = "--help" ]; then
@@ -98,8 +98,9 @@ start_time=$(date '+%s')
 temp_output_file=$(mktemp)
 
 # Execute command and capture output while displaying it in realtime
+# Using stdbuf to force line buffering for non-interactive sessions
 set -o pipefail
-eval "$command" 2>&1 | tee "$temp_output_file"
+stdbuf -oL -eL eval "$command" 2>&1 | tee "$temp_output_file"
 exit_code=${PIPESTATUS[0]}
 
 # Read the output from temporary file
