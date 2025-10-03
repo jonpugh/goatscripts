@@ -5,28 +5,25 @@ on:
     branches:
     - main
 
+# Settings for run-with-summary script.
+env:
+  FILE: report-${{ github.run_id }}.md
+  SUMMARY: yes
+
 jobs:
   
   run-with-summary:
     runs-on: ubuntu-latest
-
-    # Settings for run-with-summary script.
-    env:
-      FILE: report-${{ github.run_id }}.md
-      SUCCESS: "Ping Successful"
-      FAILURE: "Ping Failed"
-      SUMMARY: yes
-
     steps:
     - uses: actions/checkout@v4
     - name: run-with-summary
       run: |
         set -o pipefail
         set +e
-        ./src/run-with-summary ping github.com -c5
+        ./src/run-with-summary ps -a
         exit_code=$?
         cat $FILE >> $GITHUB_STEP_SUMMARY
-        exit $exit_code
+        echo "EXIT_CODE=$exit_code" >> $GITHUB_ENV 
 
   run-with-summary-fail:
     runs-on: ubuntu-latest
@@ -39,7 +36,16 @@ jobs:
       run: |
         set -o pipefail
         set +e
-        ./src/run-with-summary ping w3.org -c5
+        ./src/run-with-summary ping w3.org -c1
         exit_code=$?
         cat $FILE >> $GITHUB_STEP_SUMMARY
-        exit $exit_code
+        echo "EXIT_CODE=$exit_code" >> $GITHUB_ENV 
+
+    - name: Exit
+      run: |
+        if [ "$EXIT_CODE" -eq 0 ]; then
+          echo "Exit code is not 0, as expected."
+        else
+          echo "Exit code was expected to fail. Something is wrong."
+          exit 1
+        fi
