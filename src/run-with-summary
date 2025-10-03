@@ -100,7 +100,7 @@ temp_output_file=$(mktemp)
 # Execute command and capture output while displaying it in realtime
 # Using stdbuf to force line buffering for non-interactive sessions
 set -o pipefail
-stdbuf -oL -eL eval "$command" 2>&1 | tee "$temp_output_file"
+stdbuf -oL -eL $command 2>&1 | tee "$temp_output_file"
 exit_code=${PIPESTATUS[0]}
 
 # Read the output from temporary file
