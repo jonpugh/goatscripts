@@ -41,11 +41,11 @@ jobs:
         cat $FILE >> $GITHUB_STEP_SUMMARY
         echo "EXIT_CODE=$exit_code" >> $GITHUB_ENV 
 
-    - name: Exit
       run: |
-        if [ "$EXIT_CODE" -eq 0 ]; then
-          echo "Exit code is not 0, as expected."
-        else
-          echo "Exit code was expected to fail. Something is wrong."
+        if [ "$EXIT_CODE" == "0" ]; then
+          echo "Script was expected to fail. Something is wrong."
           exit 1
+        else
+          echo "Exit code is not 0, as expected."
         fi
+    - name: Exit
