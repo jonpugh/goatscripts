@@ -12,6 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: run-with-summary
+      continue-on-error: true
       env:
         SUCCESS: "Pinging Google Passed"
         FAILURE: "Ping Failed"
@@ -19,5 +20,11 @@ jobs:
         FILE: report-${{ github.run_id }}.md
       run: |
         ./src/run-with-summary ping w3.org -c5
-        ls -la $FILE
+
+    - name: Print Summary
+      run: |
         cat $FILE >> $GITHUB_STEP_SUMMARY
+
+    - name: Exit
+      if: failure()
+      run: exit 1
