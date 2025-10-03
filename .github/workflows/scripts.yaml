@@ -18,6 +18,6 @@ jobs:
         SUMMARY: yes
         FILE: report-${{ github.run_id }}.md
       run: |
-        ./src/run-with-summary ping google.com -n5
+        ./src/run-with-summary ping google.com -c5
         ls -la $FILE
         cat $FILE >> $GITHUB_STEP_SUMMARY
