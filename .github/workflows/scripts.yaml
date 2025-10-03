@@ -17,6 +17,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: run-with-summary
+      env:
+        SUCCESS: "Test Command Succeeded :check:"
+        ERROR: "Test Command Failed! :x:"
       run: |
         set -o pipefail
         set +e
@@ -27,12 +30,12 @@ jobs:
 
   run-with-summary-fail:
     runs-on: ubuntu-latest
-    env:
-      FILE: report-${{ github.run_id }}.md
-
     steps:
     - uses: actions/checkout@v4
     - name: run-with-summary failure
+      env:
+        SUCCESS: "Ping Succeeded :check:"
+        ERROR: "Ping Failed :x:"
       run: |
         set -o pipefail
         set +e
