@@ -9,6 +9,7 @@ on:
 env:
   FILE: report-${{ github.run_id }}.md
   SUMMARY: yes
+  DEBUG: yes
 
 jobs:
   
