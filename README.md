@@ -5,21 +5,42 @@ Bash to basics.
 
 `run-with-summary <args>`
 
-## Example
+Executes a command and prints a markdown summary. 
+
+Useful for CI systems like GitHub Actions. 
+
+## Examples
+
+```shell
+  run-with-summary ping w3.org -c5
+```
+
+To customize the report header text, show extra info in the table, or print the summary in the command run, use these env vars.
 
 ```shell
 SUCCESS="Deploy complete" \
 ERROR="Deploy failed" \
 DEBUG=1 \
 SUMMARY=1 \
-  run-with-summary ping w3.org -c3
+  run-with-summary deploy.sh
 ```
 
-## Output
+To output the results of a command to GitHub Actions summary, add this step to your workflow:
 
-This script renders the output of the command and a summary using markdown syntax.
+```yaml
+- name: Deploy script
+  env: 
+    SUCCESS: "Deploy complete"
+    ERROR: "Deploy failed"
+    DEBUG: 1
+    SUMMARY: 1
+  run: |
+    run-with-summary deploy.sh
+```
 
-# Deploy complete
+<details>
+<summary>Example Output</summary>
+# Command complete
 ```
 ping w3.org -c5
 ```
@@ -48,3 +69,4 @@ round-trip min/avg/max/stddev = 9.480/12.844/15.017/1.825 ms
 | Directory  | /Users/jonpugh/Work/Operations/goatscripts
 
 Markdown report saved to /tmp/summary.md
+</details>
