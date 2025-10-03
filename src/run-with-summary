@@ -98,9 +98,12 @@ start_time=$(date '+%s')
 temp_output_file=$(mktemp)
 
 # Execute command and capture output while displaying it in realtime
-# Using stdbuf to force line buffering for non-interactive sessions
 set -o pipefail
-stdbuf -oL -eL $command 2>&1 | tee "$temp_output_file"
+if command -v stdbuf >/dev/null 2>&1; then
+  stdbuf -oL -eL $command 2>&1 | tee "$temp_output_file"
+else
+  $command 2>&1 | tee "$temp_output_file" 
+fi
 exit_code=${PIPESTATUS[0]}
 
 # Read the output from temporary file
