@@ -87,9 +87,18 @@ start_time=$(date '+%s')
 
 # Execute command and show output in real time while capturing it
 echo "Executing: $command"
-set -o pipefail
-output=$(eval "$command" 2>&1 | tr -d '\r' | tee >(cat >&2))
-exit_code=$?
+
+# Use a temporary file to store output
+temp_output_file=$(mktemp)
+
+# Execute command and capture output while displaying it
+$command 2>&1 | tee "$temp_output_file"
+exit_code=${PIPESTATUS[0]}
+
+# Read the output from temporary file
+output=$(<"$temp_output_file")
+rm "$temp_output_file"
+
 
 # Record end time
 end_time=$(date '+%s')
