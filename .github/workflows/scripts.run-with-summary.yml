@@ -10,6 +10,7 @@ env:
   FILE: report-${{ github.run_id }}.md
   SUMMARY: yes
   DEBUG: yes
+  PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
 
 jobs:
   
@@ -24,7 +25,7 @@ jobs:
       run: |
         set -o pipefail
         set +e
-        ./src/run-with-summary ls -la
+        run-with-summary ls -la
         exit_code=$?
         cat $FILE >> $GITHUB_STEP_SUMMARY
         exit $exit_code
@@ -40,7 +41,7 @@ jobs:
       run: |
         set -o pipefail
         set +e
-        ./src/run-with-summary not-a-command
+        run-with-summary not-a-command
         exit_code=$?
         cat $FILE >> $GITHUB_STEP_SUMMARY
         echo "EXIT_CODE=$exit_code" >> $GITHUB_ENV 
