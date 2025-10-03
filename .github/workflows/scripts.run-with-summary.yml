@@ -38,4 +38,4 @@ jobs:
         SUCCESS: "Command Succeeded :white_check_mark:"
         ERROR: "Command Failed, as expected :x:"
       run: |
-        run-with-summary ping w3.org -n5 | tee -a $GITHUB_STEP_SUMMARY
+        run-with-summary ping w3.org -c5 | tee -a $GITHUB_STEP_SUMMARY
