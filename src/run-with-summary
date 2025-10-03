@@ -100,6 +100,7 @@ echo "Executing: $command"
 temp_output_file=$(mktemp)
 
 # Execute command and capture output while displaying it
+set -o pipefail
 $command 2>&1 | tee "$temp_output_file"
 exit_code=${PIPESTATUS[0]}
 
