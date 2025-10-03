@@ -40,7 +40,7 @@ jobs:
         exit_code=$?
         cat $FILE >> $GITHUB_STEP_SUMMARY
         echo "EXIT_CODE=$exit_code" >> $GITHUB_ENV 
-
+    - name: exit
       run: |
         if [ "$EXIT_CODE" == "0" ]; then
           echo "Script was expected to fail. Something is wrong."
