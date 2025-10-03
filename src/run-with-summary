@@ -9,22 +9,30 @@ debug=${DEBUG:-""}
 
 # Print the markdown summary after the command output.
 echo_summary=${SUMMARY:-""}
+temp_report_file=${FILE:-""}
 
 usage() {
   cat <<'USAGE'
-Usage: run-with-summary [options] -- <command and args>
+Usage: run-with-summary <command and args>
 
-Executes the given command, streams its output, and writes a Markdown summary to /tmp/summary.md.
+Executes the given command, streams its output, and writes a Markdown summary to $FILE.
 
 Environment variables:
   SUCCESS           Custom success heading (default: "Command executed").
   ERROR             Custom error heading (default: "Command failed").
   DEBUG             If set (non-empty), include User/Host/Directory in the summary.
   SUMMARY           If set (non-empty), echo the Markdown summary to stdout after execution.
+  FILE              Markdown report file (default: /tmp/summary.md
 
 Examples:
   run-with-summary ls -la
-  SUCCESS="Deploy complete" SUMMARY=1 run-with-summary -- make deploy
+
+  SUCCESS="Deploy complete" \
+  ERROR="Deploy failed" \
+  DEBUG=1 \
+  SUMMARY=1 \
+    run-with-summary ping w3.org -c3
+
 USAGE
 }
 
@@ -105,12 +113,12 @@ end_time=$(date '+%s')
 
 # Generate markdown report
 formatted_output=$(format_output "$command" "$output" "$exit_code" "$start_time" "$end_time")
-echo "$formatted_output" > /tmp/summary.md
+echo "$formatted_output" > $temp_report_file
 
 if [[ -n $echo_summary ]]; then
   echo "$formatted_output"
 fi
 echo
-echo "Markdown report saved to /tmp/summary.md"
+echo "Markdown report saved to $temp_report_file"
 
 exit "$exit_code"
