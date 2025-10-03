@@ -100,10 +100,10 @@ temp_output_file=$(mktemp)
 # Execute command and capture output while displaying it in realtime
 set -o pipefail
 if command -v stdbuf >/dev/null 2>&1; then
-  stdbuf -oL $command 2>&1 | tee "$temp_output_file"
-else
-  $command 2>&1 | tee "$temp_output_file" 
+  command="stdbuf -oL $command"
 fi
+
+$command 2>&1 | tee "$temp_output_file"
 exit_code=${PIPESTATUS[0]}
 
 # Read the output from temporary file
