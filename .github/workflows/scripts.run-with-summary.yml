@@ -1,0 +1,47 @@
+# Test the scripts.
+name: Run with Summary
+on:
+  pull_request:
+    branches:
+    - main
+
+# Settings for run-with-summary script.
+env:
+  FILE: report-${{ github.run_id }}.md
+  SUMMARY: |
+    - Environment: https://pr${{ github.event.number }}.demo.site
+    - Pull Request: ${{github.event.pull_request.html_url }}
+    
+    <details><summary>${{ github.event.pull_request.title }}</summary>
+    ${{ github.event.pull_request.body }}
+    </details>
+  DEBUG: yes
+  PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
+
+jobs:
+  
+  run-with-summary:
+    name: run-with-summary success
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: run-with-summary
+      env:
+        HEADING: "Running Tests"
+        SUCCESS: "Test Command Succeeded :white_check_mark:"
+        ERROR: "Test Command Failed! :x:"
+      run: |
+        run-with-summary ls -la >> $GITHUB_STEP_SUMMARY
+
+  run-with-summary-fail:
+    name: run-with-summary failure
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: run-with-summary failure
+      env:
+        HEADING: "Confirming command failure"
+        SUCCESS: "Command Succeeded :white_check_mark:"
+        ERROR: "Command Failed, as expected :x:"
+      run: |
+        run-with-summary ping w3.org -c5 | tee -a $GITHUB_STEP_SUMMARY
