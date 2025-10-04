@@ -10,8 +10,10 @@ env:
   FILE: report-${{ github.run_id }}.md
   SUMMARY: |
     - Environment: https://pr${{ github.event.number }}.demo.site
-    <details><summary>[Pull Request #${{ github.event.number }}](${{github.event.pull_request.html_url }})</summary>
-    > ${{ github.event.pull_request.body }}
+    - Pull Request: ${{github.event.pull_request.html_url }}
+    
+    <details><summary>${{ github.event.pull_request.title }}</summary>
+    ${{ github.event.pull_request.body }}
     </details>
   DEBUG: yes
   PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
