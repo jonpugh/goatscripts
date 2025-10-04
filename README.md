@@ -81,5 +81,4 @@ round-trip min/avg/max/stddev = 9.480/12.844/15.017/1.825 ms
 | Host       | macbookpro.lan
 | Directory  | /Users/jonpugh/Work/Operations/goatscripts
 
-Markdown report saved to /tmp/summary.md
 </details>
