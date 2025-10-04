@@ -1,7 +1,11 @@
 # goatscripts
 Bash to basics.
 
-# Run With Summary
+These scripts are things I've been using in different places over the years.
+
+Help yourself.
+
+## Run With Summary
 
 `run-with-summary <args>`
 
