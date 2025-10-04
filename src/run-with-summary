@@ -89,8 +89,14 @@ start_time=$(date '+%s')
 # Use a temporary file to store output
 temp_output_file=$(mktemp)
 
-echo "# ${heading_message}"
-echo "${summary}"
+if [[ -n ${heading_message} ]]; then
+  echo "# ${heading_message}"
+fi
+
+if [[ -n ${summary} ]]; then
+  echo "# ${summary}"
+fi
+
 echo "\`\`\`"
 echo "$command"
 echo "\`\`\`"
