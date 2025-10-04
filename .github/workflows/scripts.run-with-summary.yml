@@ -9,7 +9,7 @@ on:
 env:
   FILE: report-${{ github.run_id }}.md
   SUMMARY: |
-    Pull Request [#${{ github.event.number }} ${{ github.event.pull_request.title }}](${{github.event.pull_request.html_url }}) 
+    Pull Request #${{ github.event.number }}: [${{ github.event.pull_request.title }}](${{github.event.pull_request.html_url }}) 
     > ${{ github.event.pull_request.body }}
   DEBUG: yes
   PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
