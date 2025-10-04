@@ -94,7 +94,7 @@ if [[ -n ${heading_message} ]]; then
 fi
 
 if [[ -n ${summary} ]]; then
-  echo "# ${summary}"
+  echo "${summary}"
 fi
 
 echo "\`\`\`"
