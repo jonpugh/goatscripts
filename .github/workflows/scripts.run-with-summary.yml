@@ -8,7 +8,9 @@ on:
 # Settings for run-with-summary script.
 env:
   FILE: report-${{ github.run_id }}.md
-  SUMMARY: ${{ github.event.pull_request.description }}
+  SUMMARY: |
+    Pull Request: #${{ github.event.number }} ${{ github.event.pull_request.title }}
+    ${{ github.event.pull_request.description }}
   DEBUG: yes
   PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
 
