@@ -32,15 +32,24 @@ To output the results of a command to GitHub Actions summary, add this step to y
   env: 
     SUCCESS: "Deploy complete"
     ERROR: "Deploy failed"
-    DEBUG: 1
-    SUMMARY: 1
+    SUMMARY: |
+      - Environment: https://pr${{ github.event.number }}.demo.site
+      - Pull Request: ${{github.event.pull_request.html_url }}
+
+      <details><summary>${{ github.event.pull_request.title }}</summary>
+        ${{ github.event.pull_request.body }}
+      </details>
   run: |
     run-with-summary deploy.sh
 ```
 
 <details>
 <summary>Example Output</summary>
+
 # Command complete
+
+Any markdown at all can be put into the SUMMARY env var.
+
 ```
 ping w3.org -c5
 ```
