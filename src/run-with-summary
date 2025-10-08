@@ -12,7 +12,8 @@ Environment variables:
   SUCCESS           Custom success message (default: "Command succeeded").
   ERROR             Custom error message (default: "Command failed").
   DEBUG             If set (non-empty), include User/Host/Directory in the summary.
-  FILE              Markdown report file (default: /tmp/summary.md
+  FILE              The file to append the markdown report to. (default: /tmp/summary.md)
+  SHOW              If set, echo the summary after the command is run.
 
 Examples:
   run-with-summary scripts/deploy.sh
@@ -31,87 +32,102 @@ USAGE
 set -e
 
 # Customize the success and error messages.
-command="$@"
-heading_message=${HEADING:-"Command executed"}
-summary=${SUMMARY:-"Started $(date)"}
-success_message=${SUCCESS:-"Command executed successfully."}
-error_message=${ERROR:-"Command failed"}
+export command="$@"
+export summary=${SUMMARY:-"Started $(date)"}
+export success=${SUCCESS:-"Command executed successfully."}
+export error=${ERROR:-"Command failed"}
+export debug=${DEBUG:-""}
 
-# Print extra stuff like user and hostname in the summary.
-debug=${DEBUG:-""}
+export date_format_readable="%a %b %d %Y %T %Z"
+export date_format_filename="%Y-%m-%d--%H:%M:%S-%Z"
 
-# Print the markdown summary after the command output.
-temp_report_file=${FILE:-"/tmp/summary.md"}
+# Export to GITHUB_STEP_SUMMARY, if it exists and FILE is empty
+FILE=${FILE:-${GITHUB_STEP_SUMMARY}}
+
+# Temporary file to store output.
+export temp_output_file=$(mktemp)
 
 if [ -z "$command" ]; then
     usage
     exit 1
 fi
 
-# Format output into markdown report
-format_output() {
-    local command="$1"
-    local exit_code="$2"
-    local start_time="$3"
-    local end_time="$4"
-    local duration=$((end_time - start_time))
-    
-    local start_date=$(date -d "@$start_time" '+%Y-%m-%d %H:%M:%S %Z' 2>/dev/null || date -r $start_time '+%Y-%m-%d %H:%M:%S %Z')
-    local end_date=$(date -d "@$end_time" '+%Y-%m-%d %H:%M:%S %Z' 2>/dev/null || date -r $end_time '+%Y-%m-%d %H:%M:%S %Z')
-
-    local message="$error_message"
-    if [ "$exit_code" -eq 0 ]; then
-        message="$success_message"
-    fi
-
-    echo "| Command    | \`$command\`"
-    echo "|------------|-----------------------"
-    echo "| Exit Code  | \`$exit_code\`"
-    echo "| Start Time | $start_date"
-    echo "| End Time   | $end_date"
-    echo "| Duration   | ${duration}s"
-
-    if [[ -n $debug ]]; then
-      echo "| User       | $(whoami) "
-      echo "| Host       | $(hostname -f)"
-      echo "| Directory  | $(pwd)"
-    fi
-    echo
-    echo $message
+format_date() {
+  time="${1:-$(date '+%s')}"
+  format="${2:-$date_format_filename}"
+  date -d "@$time" "+$format" 2>/dev/null || date -r "$time" "+$format"
 }
 
+# Format output into markdown report
+format_output() {
+    local duration=$((end_time - start_time))
+    local start_date=$(format_date "$start_time" "$date_format_readable")
+    local end_date=$(format_date "$end_time" "$date_format_readable")
 
+    local message="$error"
+    if [ "$exit_code" -eq 0 ]; then
+        message="$success"
+    fi
 
-# Record start time
+    echo "# $message"
+    echo "$summary"
+    format_code "$command"
+
+    echo \`\`\`
+    cat $temp_output_file
+    echo \`\`\`
+
+    echo
+
+    echo "| Command          | \`$command\`"
+    echo "|------------------|---------------------"
+    echo "| Start Time       | $start_date"
+    echo "| End Time         | $end_date"
+    echo "| Duration         | ${duration}s"
+    echo "| User             | ${duration}s"
+    echo "| Exit Code        | \`$exit_code\`"
+
+    if [[ -n $debug ]]; then
+      echo "| User             | \`$(whoami)\` "
+      echo "| Host             | \`$(hostname -f)\`"
+      echo "| Directory        | \`$(pwd)"\`
+      echo "| Temp output file | \`$temp_output_file\`"
+      echo "| Summary file     | \`$file\`"
+    fi
+    echo
+}
+
+format_code() {
+  echo "\`\`\`"
+  echo $1
+  echo "\`\`\`"
+}
+
+export file=${FILE:-"/tmp/summary.$(format_date).md"}
+
+# Record start time 
 start_time=$(date '+%s')
 
-# Execute command and show output in real time while capturing it
-# Use a temporary file to store output
-temp_output_file=$(mktemp)
+# Execute command and pipe output to both terminal and temp file
+set +o pipefail
+$command 2>&1 | tee -a "$temp_output_file"
 
-if [[ -n ${heading_message} ]]; then
-  echo "# ${heading_message}"
-fi
-
-if [[ -n ${summary} ]]; then
-  echo "${summary}"
-fi
-
-echo "\`\`\`"
-echo "$command"
-echo "\`\`\`"
-echo
-echo "\`\`\`"
-
-set -o pipefail
-$command
+# Save exit code.
 exit_code=${PIPESTATUS[0]}
-echo "\`\`\`"
 
+# Save end time.
 end_time=$(date '+%s')
 
 # Generate markdown report
-format_output "$command" "$exit_code" "$start_time" "$end_time"
+format_output >> "$file"
+echo
+echo "Summary saved to $file"
+
+if [[ -n $SHOW ]]; then
+  echo
+  cat $file
+fi
+
 
 # Exit same as command.
 exit "$exit_code"
