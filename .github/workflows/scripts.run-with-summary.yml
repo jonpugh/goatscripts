@@ -31,8 +31,9 @@ jobs:
         SUCCESS: "Test Command Succeeded :white_check_mark:"
         ERROR: "Test Command Failed! :x:"
       run: |
-        echo ${{ toJSON(github) }}
-        echo ${{ toJSON(steps) }}
+        echo $GITHUB_STEP_SUMMARY
+        echo "${{ toJSON(github) }}"
+        echo "${{ toJSON(steps) }}"
         FILE=$GITHUB_STEP_SUMMARY
         run-with-summary ls -la
 
