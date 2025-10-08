@@ -32,18 +32,17 @@ USAGE
 set -e
 
 # Customize the success and error messages.
-command="$@"
-heading=${HEADING:-"Command executed"}
-summary=${SUMMARY:-"Started $(date)"}
-success=${SUCCESS:-"Command executed successfully."}
-error=${ERROR:-"Command failed"}
-debug=${DEBUG:-""}
+export command="$@"
+export summary=${SUMMARY:-"Started $(date)"}
+export success=${SUCCESS:-"Command executed successfully."}
+export error=${ERROR:-"Command failed"}
+export debug=${DEBUG:-""}
 
 export date_format_readable="%a %b %d %Y %T %Z"
 export date_format_filename="%Y-%m-%d--%H:%M:%S-%Z"
 
 # Temporary file to store output.
-temp_output_file=$(mktemp)
+export temp_output_file=$(mktemp)
 
 if [ -z "$command" ]; then
     usage
@@ -67,6 +66,15 @@ format_output() {
         message="$success"
     fi
 
+    local $output=$(cat $temp_output_file)
+
+    echo "# $message"
+    echo "$summary"
+    format_code "$command"
+    format_code "$output"
+
+    echo
+
     echo "| Command    | \`$command\`"
     echo "|------------|-----------------------"
     echo "| Exit Code  | \`$exit_code\`"
@@ -75,12 +83,17 @@ format_output() {
     echo "| Duration   | ${duration}s"
 
     if [[ -n $debug ]]; then
-      echo "| User       | $(whoami) "
-      echo "| Host       | $(hostname -f)"
-      echo "| Directory  | $(pwd)"
+      echo "| User       | \`$(whoami)\` "
+      echo "| Host       | \`$(hostname -f)\`"
+      echo "| Directory  | \`$(pwd)"\`
     fi
     echo
-    echo $message
+}
+
+format_code() {
+  echo "\`\`\`"
+  echo $1
+  echo "\`\`\`"
 }
 
 file=${FILE:-"/tmp/summary.$(format_date).md"}
