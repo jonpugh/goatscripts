@@ -108,7 +108,7 @@ export file=${FILE:-"/tmp/summary.$(format_date).md"}
 start_time=$(date '+%s')
 
 # Execute command and pipe output to both terminal and temp file
-set -o pipefail
+set +o pipefail
 $command 2>&1 | tee -a "$temp_output_file"
 
 # Save exit code.
