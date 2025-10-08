@@ -39,6 +39,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: run-with-summary failure
+      continue-on-error: true
+      env:
+        ERROR: "run-with-summary Failed on purpose! :x:"
       run: |
         echo $GITHUB_STEP_SUMMARY
         run-with-summary ping w3.org -c5
