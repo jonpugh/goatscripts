@@ -30,11 +30,8 @@ jobs:
         HEADING: "Running Tests"
         SUCCESS: "Test Command Succeeded :white_check_mark:"
         ERROR: "Test Command Failed! :x:"
+        FILE: ${{ steps.step_summary }}
       run: |
-        echo $GITHUB_STEP_SUMMARY
-        echo "${{ toJSON(github) }}"
-        echo "${{ toJSON(steps) }}"
-        FILE=$GITHUB_STEP_SUMMARY
         run-with-summary ls -la
 
   run-with-summary-fail:
