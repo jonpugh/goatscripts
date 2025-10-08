@@ -7,11 +7,13 @@ on:
 
 # Settings for run-with-summary script.
 env:
+  SUCCESS: "Script run-with-summary succeeded! :white_check_mark:"
+  ERROR: "run-with-summary Failed! :x:"
   SUMMARY: |
     - Environment: https://pr${{ github.event.number }}.demo.site
     - Pull Request: ${{github.event.pull_request.html_url }}
     
-    <details><summary>${{ github.event.pull_request.title }}</summary>
+    <details><summary>**Pull Request:** ${{ github.event.pull_request.title }}</summary>
     ${{ github.event.pull_request.body }}
     </details>
   DEBUG: yes
@@ -25,10 +27,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: run-with-summary
-      env:
-        HEADING: "Running Tests"
-        SUCCESS: "Test Command Succeeded :white_check_mark:"
-        ERROR: "Test Command Failed! :x:"
       run: |
         run-with-summary ls -la
 
@@ -38,9 +36,5 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: run-with-summary failure
-      env:
-        HEADING: "Confirming command failure"
-        SUCCESS: "Command Succeeded :white_check_mark:"
-        ERROR: "Command Failed, as expected :x:"
       run: |
-        run-with-summary ping w3.org -c5 | tee -a $GITHUB_STEP_SUMMARY
+        run-with-summary ping w3.org -c5
