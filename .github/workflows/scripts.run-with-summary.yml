@@ -12,10 +12,7 @@ env:
   SUMMARY: |
     - Environment: https://pr${{ github.event.number }}.demo.site
     - Pull Request: ${{github.event.pull_request.html_url }}
-    
-    <details><summary>**Pull Request:** ${{ github.event.pull_request.title }}</summary>
-    ${{ github.event.pull_request.body }}
-    </details>
+
   DEBUG: yes
   PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
 
