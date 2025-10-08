@@ -13,6 +13,7 @@ Environment variables:
   ERROR             Custom error message (default: "Command failed").
   DEBUG             If set (non-empty), include User/Host/Directory in the summary.
   FILE              The file to append the markdown report to. (default: /tmp/summary.md)
+  SHOW              If set, echo the summary after the command is run.
 
 Examples:
   run-with-summary scripts/deploy.sh
@@ -96,7 +97,14 @@ end_time=$(date '+%s')
 
 # Generate markdown report
 format_output >> "$file"
+echo
 echo "Summary saved to $file"
+
+if [[ -n $SHOW ]]; then
+  echo
+  cat $file
+fi
+
 
 # Exit same as command.
 exit "$exit_code"
