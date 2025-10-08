@@ -32,6 +32,7 @@ jobs:
         ERROR: "Test Command Failed! :x:"
         FILE: ${{ steps.step_summary }}
       run: |
+        echo "Step summary: ${{ steps.step_summary }}"
         run-with-summary ls -la
 
   run-with-summary-fail:
