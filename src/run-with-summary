@@ -79,12 +79,13 @@ format_output() {
 
     echo
 
-    echo "| Command    | \`$command\`"
-    echo "|------------|-----------------------"
-    echo "| Exit Code  | \`$exit_code\`"
-    echo "| Start Time | $start_date"
-    echo "| End Time   | $end_date"
-    echo "| Duration   | ${duration}s"
+    echo "| Command          | \`$command\`"
+    echo "|------------------|---------------------"
+    echo "| Start Time       | $start_date"
+    echo "| End Time         | $end_date"
+    echo "| Duration         | ${duration}s"
+    echo "| User             | ${duration}s"
+    echo "| Exit Code        | \`$exit_code\`"
 
     if [[ -n $debug ]]; then
       echo "| User             | \`$(whoami)\` "
