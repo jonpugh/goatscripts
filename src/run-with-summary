@@ -41,6 +41,9 @@ export debug=${DEBUG:-""}
 export date_format_readable="%a %b %d %Y %T %Z"
 export date_format_filename="%Y-%m-%d--%H:%M:%S-%Z"
 
+# Export to GITHUB_STEP_SUMMARY, if it exists and FILE is empty
+FILE=${FILE:-${GITHUB_STEP_SUMMARY}}
+
 # Temporary file to store output.
 export temp_output_file=$(mktemp)
 
