@@ -39,6 +39,9 @@ success=${SUCCESS:-"Command executed successfully."}
 error=${ERROR:-"Command failed"}
 debug=${DEBUG:-""}
 
+export date_format_readable="%a %b %d %Y %T %Z"
+export date_format_filename="%Y-%m-%d--%H:%M:%S-%Z"
+
 # Temporary file to store output.
 temp_output_file=$(mktemp)
 
@@ -49,15 +52,15 @@ fi
 
 format_date() {
   time="${1:-$(date '+%s')}"
-  format="${2:-+%Y-%m-%d--%H:%M:%S-%Z}"
-  date -d "@$time" "$format" 2>/dev/null || date -r "$time" "$format"
+  format="${2:-$date_format_filename}"
+  date -d "@$time" "+$format" 2>/dev/null || date -r "$time" "+$format"
 }
 
 # Format output into markdown report
 format_output() {
     local duration=$((end_time - start_time))
-    local start_date=$(format_date "$start_time" "+%D %T %Z")
-    local end_date=$(format_date "$end_time" "+%D %T %Z")
+    local start_date=$(format_date "$start_time" "$date_format_readable")
+    local end_date=$(format_date "$end_time" "$date_format_readable")
 
     local message="$error"
     if [ "$exit_code" -eq 0 ]; then
