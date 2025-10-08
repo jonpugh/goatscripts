@@ -69,12 +69,13 @@ format_output() {
         message="$success"
     fi
 
-    local output=$(cat $temp_output_file)
-
     echo "# $message"
     echo "$summary"
     format_code "$command"
-    format_code "$output"
+
+    echo \`\`\`
+    cat $temp_output_file
+    echo \`\`\`
 
     echo
 
@@ -86,9 +87,11 @@ format_output() {
     echo "| Duration   | ${duration}s"
 
     if [[ -n $debug ]]; then
-      echo "| User       | \`$(whoami)\` "
-      echo "| Host       | \`$(hostname -f)\`"
-      echo "| Directory  | \`$(pwd)"\`
+      echo "| User             | \`$(whoami)\` "
+      echo "| Host             | \`$(hostname -f)\`"
+      echo "| Directory        | \`$(pwd)"\`
+      echo "| Temp output file | $temp_output_file"
+      echo "| Summary file     | $file"
     fi
     echo
 }
@@ -99,7 +102,7 @@ format_code() {
   echo "\`\`\`"
 }
 
-file=${FILE:-"/tmp/summary.$(format_date).md"}
+export file=${FILE:-"/tmp/summary.$(format_date).md"}
 
 # Record start time 
 start_time=$(date '+%s')
