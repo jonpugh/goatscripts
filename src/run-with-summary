@@ -84,7 +84,6 @@ format_output() {
     echo "| Start Time       | $start_date"
     echo "| End Time         | $end_date"
     echo "| Duration         | ${duration}s"
-    echo "| User             | ${duration}s"
     echo "| Exit Code        | \`$exit_code\`"
 
     if [[ -n $debug ]]; then
