@@ -40,4 +40,5 @@ jobs:
     - uses: actions/checkout@v4
     - name: run-with-summary failure
       run: |
+        echo $GITHUB_STEP_SUMMARY
         run-with-summary ping w3.org -c5
