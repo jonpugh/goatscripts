@@ -30,8 +30,9 @@ jobs:
         HEADING: "Running Tests"
         SUCCESS: "Test Command Succeeded :white_check_mark:"
         ERROR: "Test Command Failed! :x:"
+        FILE: ${{ env.GITHUB_STEP_SUMMARY }}
       run: |
-        run-with-summary ls -la >> $GITHUB_STEP_SUMMARY
+        run-with-summary ls -la
 
   run-with-summary-fail:
     name: run-with-summary failure
