@@ -13,7 +13,13 @@ env:
     - Environment: https://pr${{ github.event.number }}.demo.site
     - Pull Request: ${{github.event.pull_request.html_url }}
 
+  # Print summary in output logs
+  SHOW: yes
+
+  # Show extra details
   DEBUG: yes
+
+  # Allow running run-with-summary command.
   PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
 
 jobs:

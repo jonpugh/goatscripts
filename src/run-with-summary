@@ -90,8 +90,8 @@ format_output() {
       echo "| User             | \`$(whoami)\` "
       echo "| Host             | \`$(hostname -f)\`"
       echo "| Directory        | \`$(pwd)"\`
-      echo "| Temp output file | $temp_output_file"
-      echo "| Summary file     | $file"
+      echo "| Temp output file | \`$temp_output_file\`"
+      echo "| Summary file     | \`$file\`"
     fi
     echo
 }
