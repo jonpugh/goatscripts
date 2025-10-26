@@ -32,7 +32,7 @@ jobs:
     - name: run-with-summary
       run: |
         run-with-summary ls -la
-        run-with-summary $(env|grep GITHUB_)
+        run-with-summary echo "Script tested. Summary: https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
   run-with-summary-fail:
     name: run-with-summary failure
