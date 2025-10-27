@@ -13,7 +13,7 @@ Environment variables:
   ERROR             Custom error message (default: "Command failed").
   DEBUG             If set (non-empty), include User/Host/Directory in the summary.
   FILE              The file to append the markdown report to. (default: /tmp/summary.md)
-  SHOW              If set, echo the summary after the command is run.
+  HIDE              Hide the process summary table.
 
 Examples:
   run-with-summary scripts/deploy.sh
@@ -79,12 +79,14 @@ format_output() {
 
     echo
 
-    echo "| Command          | \`$command\`"
-    echo "|------------------|---------------------"
-    echo "| Start Time       | $start_date"
-    echo "| End Time         | $end_date"
-    echo "| Duration         | ${duration}s"
-    echo "| Exit Code        | \`$exit_code\`"
+    if [[ ! -n $hide ]]; then
+      echo "| Command          | \`$command\`"
+      echo "|------------------|---------------------"
+      echo "| Start Time       | $start_date"
+      echo "| End Time         | $end_date"
+      echo "| Duration         | ${duration}s"
+      echo "| Exit Code        | \`$exit_code\`"
+    fi
 
     if [[ -n $debug ]]; then
       echo "| User             | \`$(whoami)\` "
@@ -121,11 +123,6 @@ end_time=$(date '+%s')
 format_output >> "$file"
 echo
 echo "Summary saved to $file"
-
-if [[ -n $SHOW ]]; then
-  echo
-  cat $file
-fi
 
 # Print link to job summary.
 if [[ -n $GITHUB_RUN_ID ]]; then
