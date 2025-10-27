@@ -5,6 +5,26 @@ These scripts are things I've been using in different places over the years.
 
 Help yourself.
 
+## Usage
+
+### GitHub Actions
+
+```yml
+jobs:
+  example:
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: jonpugh/goatscripts
+          ref: main
+          path: goatscripts
+      
+      - name: Set path
+        run: |
+          echo "PATH=./goatscripts/src:$PATH" >> $GITHUB_ENV
+          run-with-summary echo "Path has been set: $PATH"
+```
+
 ## Run With Summary
 
 `run-with-summary <args>`
