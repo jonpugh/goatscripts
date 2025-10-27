@@ -87,15 +87,17 @@ format_output() {
       echo "| End Time         | $end_date"
       echo "| Duration         | ${duration}s"
       echo "| Exit Code        | \`$exit_code\`"
+
+      if [[ -n $debug ]]; then
+        echo "| User             | \`$(whoami)\` "
+        echo "| Host             | \`$(hostname -f)\`"
+        echo "| Directory        | \`$(pwd)"\`
+        echo "| Temp output file | \`$temp_output_file\`"
+        echo "| Summary file     | \`$file\`"
+      fi
     fi
 
-    if [[ -n $debug ]]; then
-      echo "| User             | \`$(whoami)\` "
-      echo "| Host             | \`$(hostname -f)\`"
-      echo "| Directory        | \`$(pwd)"\`
-      echo "| Temp output file | \`$temp_output_file\`"
-      echo "| Summary file     | \`$file\`"
-    fi
+    
     echo
 }
 
