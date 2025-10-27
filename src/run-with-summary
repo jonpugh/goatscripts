@@ -36,6 +36,7 @@ export command="$@"
 export summary=${SUMMARY:-"Started $(date)"}
 export success=${SUCCESS:-"Command executed successfully."}
 export error=${ERROR:-"Command failed"}
+export hide=${HIDE:-""}
 export debug=${DEBUG:-""}
 
 export date_format_readable="%a %b %d %Y %T %Z"
