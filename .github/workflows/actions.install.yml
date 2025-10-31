@@ -44,7 +44,10 @@ jobs:
     - run: run-with-summary ls -la .goatscripts
       env:
         SUCCESS: |
-          This is a test of the run-with-summary script.
+          This is a test of the run-with-summary script. 
+          
+          You can add any markdown you like using the SUCCESS env var.
+          
           This summary was generated with the following github actions yml:
 
           ```
@@ -58,9 +61,4 @@ jobs:
                 SUCCESS: |
                   This is a test of the run-with-summary script.
                   This summary was generated with the following github actions yml:
-          
-                  ```
-                  
-          ```
-
           ```
