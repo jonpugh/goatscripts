@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: jonpugh/goatscripts@main
-    - run: run-with-summary ls -la .goatscripts
+    - run: run-with-summary echo "Run With Summary successfully completed."
       env:
         SUCCESS: "Testing run-with-summary complete :boom:"
         SUMMARY: |
