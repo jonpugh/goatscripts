@@ -7,9 +7,6 @@ on:
     branches:
     - main
 
-env:
-  DEBUG: yes
-
 jobs:
   
   install-scripts:
@@ -31,6 +28,7 @@ jobs:
     - run: run-with-summary which run-with-summary
       env:
         SUCCESS: "run-with-summary is installed."
+        DEBUG: yes
         
     - run: run-with-summary curl https://api.github.com/
       env:
