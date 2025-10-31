@@ -5,14 +5,11 @@ on:
     - main
 
 env:
-  SUCCESS: "Script run-with-summary succeeded! :white_check_mark:"
-  ERROR: "run-with-summary Failed! :x:"
-  SUMMARY: |
-    - Environment: https://pr${{ github.event.number }}.demo.site
-    - Pull Request: ${{github.event.pull_request.html_url }}
-
-  # Show extra details
   DEBUG: yes
+  SUCCESS: "GOAT Scripts installed successfully."
+  SUMMARY: |
+    This is a test of the goatscripts github action. The action simply installs the scripts and sets the path so you can use them immediately.
+    Use this file as an example to install and use the scripts.
 
 jobs:
   
@@ -22,6 +19,7 @@ jobs:
     steps:
 
     - uses: jonpugh/goatscripts@feature/action
+    
     - run: |
         which run-with-summary
-        run-with-summary echo "GOAT Scripts installed."
+        run-with-summary echo "GOAT Scripts installed: $(ls -la .goatscripts)"
