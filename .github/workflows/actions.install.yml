@@ -41,4 +41,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: jonpugh/goatscripts@main
-    - run: run-with-summary ls -la .custom/goatscripts
+    - run: run-with-summary ls -la .goatscripts
