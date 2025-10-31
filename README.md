@@ -1,4 +1,5 @@
 # goatscripts
+## git, operations, and things
 Bash to basics.
 
 These scripts are things I've been using in different places over the years.
