@@ -1,0 +1,21 @@
+name: 'Install GOAT Scripts'
+description: 'Install goatscripts.'
+inputs:
+  path:
+    description: 'Path to install the scripts. Will be automatically included in the shell PATH.'
+    default: '.goatscripts'
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/checkout@v3
+      with:
+        repository: jonpugh/goatscripts
+        ref: main
+        path: ${{ inputs.path }}
+    
+    - name: Set path
+      shell: bash
+      run: |
+        echo "./${{ inputs.path }}/src" >> $GITHUB_PATH

@@ -8,22 +8,19 @@ Help yourself.
 
 ## Usage
 
-### GitHub Actions
+### Install with GitHub Actions
 
 ```yml
 jobs:
   example:
     steps:
-      - uses: actions/checkout@v3
+      - uses: jonpugh/goatscripts@v1
+
+        # OPTIONAL
         with:
-          repository: jonpugh/goatscripts
-          ref: main
-          path: goatscripts
-      
-      - name: Set path
-        run: |
-          echo "PATH=./goatscripts/src:$PATH" >> $GITHUB_ENV
-          run-with-summary echo "Path has been set: $PATH"
+          path: .custom-scripts
+
+      - run: run-with-summary curl https://api.github.com/
 ```
 
 ## Run With Summary
