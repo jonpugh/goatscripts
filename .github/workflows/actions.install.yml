@@ -19,7 +19,12 @@ jobs:
     steps:
 
     - uses: jonpugh/goatscripts@feature/action
+      with:
+        path: .custom/goatscripts
     
     - run: |
-        which run-with-summary
         run-with-summary ls -la .goatscripts
+
+    - run: run-with-summary which run-with-summary
+      env: 
+        SUCCESS: "run-with-summary is installed."
