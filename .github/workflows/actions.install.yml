@@ -10,7 +10,7 @@ on:
 jobs:
   
   install-scripts:
-    name: Test GitHub Action
+    name: Run GitHub Action
     runs-on: ubuntu-latest
     steps:
 
@@ -34,3 +34,11 @@ jobs:
       env:
         SUCCESS: GitHub API is active
         ERROR: GitHub API unavailable!
+
+
+  test-scripts:
+    name: Test GitHub Action
+    runs-on: ubuntu-latest
+    steps:
+    - uses: jonpugh/goatscripts@main
+    - run: run-with-summary ls -la .custom/goatscripts
