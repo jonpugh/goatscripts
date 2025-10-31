@@ -43,7 +43,7 @@ jobs:
     - uses: jonpugh/goatscripts@main
     - run: run-with-summary ls -la .goatscripts
       env:
-        SUCCESS: Testing run-with-summary complete :boom:
+        SUCCESS: "Testing run-with-summary complete :boom:"
         SUMMARY: |
           This is a test of the run-with-summary script. 
           
