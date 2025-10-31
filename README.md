@@ -25,6 +25,10 @@ jobs:
 
 ## Run With Summary
 
+Run commands and save a markdown summary, automatically saving to GitHub Actions summary:
+
+<img width="1151" height="744" alt="GitHub Step Summary Example" src="https://github.com/user-attachments/assets/818e630c-788f-4e13-8ead-0fde0fc19956" />
+
 `run-with-summary <args>`
 
 Executes a command and prints a markdown summary. 
