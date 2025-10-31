@@ -1,0 +1,27 @@
+name: Test GitHub action
+on:
+  pull_request:
+    branches:
+    - main
+
+env:
+  SUCCESS: "Script run-with-summary succeeded! :white_check_mark:"
+  ERROR: "run-with-summary Failed! :x:"
+  SUMMARY: |
+    - Environment: https://pr${{ github.event.number }}.demo.site
+    - Pull Request: ${{github.event.pull_request.html_url }}
+
+  # Show extra details
+  DEBUG: yes
+
+jobs:
+  
+  install-scripts:
+    name: Test GitHub Action
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: jonpugh/goatscripts@feature/action
+    - run: |
+        which run-with-summary
+        run-with-summary echo "GOAT Scripts installed."
