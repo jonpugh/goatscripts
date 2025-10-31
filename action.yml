@@ -1,0 +1,15 @@
+name: 'Install GOAT Scripts'
+description: 'Install goatscripts.'
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/checkout@v3
+      with:
+        repository: jonpugh/goatscripts
+        ref: main
+        path: .goatscripts
+    
+    - name: Set path
+      run: |
+        echo "./.goatscripts/src" >> $GITHUB_PATH
