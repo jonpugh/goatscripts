@@ -23,7 +23,7 @@ jobs:
         path: .custom/goatscripts
     
     - run: |
-        run-with-summary ls -la .goatscripts
+        run-with-summary ls -la .custom/goatscripts
 
     - run: run-with-summary which run-with-summary
       env: 
