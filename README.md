@@ -15,17 +15,20 @@ jobs:
   example:
     steps:
       - uses: jonpugh/goatscripts@v1
-
-        # OPTIONAL
-        with:
-          path: .custom-scripts
-
-      - run: run-with-summary curl https://api.github.com/
 ```
 
 ## Run With Summary
 
-Run commands and save a markdown summary, automatically saving to GitHub Actions summary:
+Run commands and save a markdown summary, automatically saving to GitHub Actions summary.
+
+### Example:
+```
+jobs:
+  example:
+    steps:
+      - uses: jonpugh/goatscripts@v1
+      - run: run-with-summary ls -la goatscripts
+```
 
 <img width="1151" height="744" alt="GitHub Step Summary Example" src="https://github.com/user-attachments/assets/818e630c-788f-4e13-8ead-0fde0fc19956" />
 
