@@ -43,22 +43,10 @@ jobs:
     - uses: jonpugh/goatscripts@main
     - run: run-with-summary ls -la .goatscripts
       env:
-        SUCCESS: |
+        SUCCESS: Testing run-with-summary complete :boom:
+        SUMMARY:
           This is a test of the run-with-summary script. 
           
-          You can add any markdown you like using the SUCCESS env var.
-          
-          This summary was generated with the following github actions yml:
+          You can add any *markdown* you **like**, using the SUMMARY env var.
 
-          ```
-          test-scripts:
-            name: Test GitHub Action
-            runs-on: ubuntu-latest
-            steps:
-            - uses: jonpugh/goatscripts@main
-            - run: run-with-summary ls -la .goatscripts
-              env:
-                SUCCESS: |
-                  This is a test of the run-with-summary script.
-                  This summary was generated with the following github actions yml:
-          ```
+          For more details, check out [run-with-summary](https://github.com/jonpugh/goatscripts/blob/main/src/run-with-summary) source.
