@@ -42,3 +42,25 @@ jobs:
     steps:
     - uses: jonpugh/goatscripts@main
     - run: run-with-summary ls -la .goatscripts
+      env:
+        SUCCESS: |
+          This is a test of the run-with-summary script.
+          This summary was generated with the following github actions yml:
+
+          ```
+          test-scripts:
+            name: Test GitHub Action
+            runs-on: ubuntu-latest
+            steps:
+            - uses: jonpugh/goatscripts@main
+            - run: run-with-summary ls -la .goatscripts
+              env:
+                SUCCESS: |
+                  This is a test of the run-with-summary script.
+                  This summary was generated with the following github actions yml:
+          
+                  ```
+                  
+          ```
+
+          ```
