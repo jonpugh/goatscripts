@@ -19,12 +19,18 @@ jobs:
 
 ## Run With Summary
 
-Run commands and save a markdown summary, automatically saving to GitHub Actions summary.
+```
+run-with-summary my-long-command
+```
 
-### Example:
+Executes a command, prints logs, and saves a markdown summary. 
+
+### Usage
+
 ```
 jobs:
   example:
+    name: "Test GitHub Actions"
     steps:
       - uses: jonpugh/goatscripts@v1
       - run: run-with-summary ls -la goatscripts
@@ -32,78 +38,22 @@ jobs:
 
 <img width="1151" height="744" alt="GitHub Step Summary Example" src="https://github.com/user-attachments/assets/818e630c-788f-4e13-8ead-0fde0fc19956" />
 
-`run-with-summary <args>`
+The script was designed to be most useful on GitHub, but you can use it anywhere.
 
-Executes a command and prints a markdown summary. 
+### Options
 
-Useful for CI systems like GitHub Actions. 
-
-## Examples
-
-```shell
-  run-with-summary ping w3.org -c5
-```
-
-To customize the report header text, show extra info in the table, or print the summary in the command run, use these env vars.
-
-```shell
-SUCCESS="Deploy complete" \
-ERROR="Deploy failed" \
-DEBUG=1 \
-SUMMARY=1 \
-  run-with-summary deploy.sh
-```
-
-To output the results of a command to GitHub Actions summary, add this step to your workflow:
-
-```yaml
-- name: Deploy script
-  env: 
-    SUCCESS: "Deploy complete"
-    ERROR: "Deploy failed"
-    SUMMARY: |
-      - Environment: https://pr${{ github.event.number }}.demo.site
-      - Pull Request: ${{github.event.pull_request.html_url }}
-
-      <details><summary>${{ github.event.pull_request.title }}</summary>
-        ${{ github.event.pull_request.body }}
-      </details>
-  run: |
-    run-with-summary deploy.sh
-```
-
-<details>
-<summary>Example Output</summary>
-
-# Command complete
-
-Any markdown at all can be put into the SUMMARY env var.
+Customize the output with environment variables. See the [run-with-summary script](https://github.com/jonpugh/goatscripts/blob/main/src/run-with-summary) for more details.
 
 ```
-ping w3.org -c5
+jobs:
+  deploy:
+    steps:
+      - uses: jonpugh/goatscripts@v1
+      - run: run-with-summary deploy.sh
+        env:
+          SUCCESS: "Deploy complete! :rocket:"
+          ERROR: "Deploy failed! :boom:"
+          SUMMARY: |
+            Set SUMMARY env var to add *any* markdown **you want** to the report file.
 ```
 
-```
-PING w3.org (104.18.22.19): 56 data bytes
-64 bytes from 104.18.22.19: icmp_seq=0 ttl=59 time=9.480 ms
-64 bytes from 104.18.22.19: icmp_seq=1 ttl=59 time=13.510 ms
-64 bytes from 104.18.22.19: icmp_seq=2 ttl=59 time=12.989 ms
-64 bytes from 104.18.22.19: icmp_seq=3 ttl=59 time=15.017 ms
-64 bytes from 104.18.22.19: icmp_seq=4 ttl=59 time=13.225 ms
-
---- w3.org ping statistics ---
-5 packets transmitted, 5 packets received, 0.0% packet loss
-round-trip min/avg/max/stddev = 9.480/12.844/15.017/1.825 ms
-```
-
-| Command    | `ping w3.org -c5`
-|------------|-----------------------
-| Exit Code  | `0`
-| Start Time | 2025-10-03 07:24:40 EDT
-| End Time   | 2025-10-03 07:24:40 EDT
-| Duration   | 4s
-| User       | jonpugh 
-| Host       | macbookpro.lan
-| Directory  | /Users/jonpugh/Work/Operations/goatscripts
-
-</details>
