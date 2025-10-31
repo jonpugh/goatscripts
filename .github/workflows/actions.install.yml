@@ -43,6 +43,7 @@ jobs:
     - uses: jonpugh/goatscripts@main
     - run: run-with-summary echo "Run With Summary successfully completed."
       env:
+        DEBUG: true
         SUCCESS: "Testing run-with-summary complete :boom:"
         SUMMARY: |
           This is a test of the run-with-summary script. 
