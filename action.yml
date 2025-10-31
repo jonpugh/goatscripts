@@ -1,5 +1,7 @@
 name: 'Install GOAT Scripts'
 description: 'Install goatscripts.'
+color: green
+icon: zap
 inputs:
   path:
     description: 'Path to install the scripts. Will be automatically included in the shell PATH.'
