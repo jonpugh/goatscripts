@@ -6,10 +6,6 @@ on:
 
 env:
   DEBUG: yes
-  SUCCESS: "GOAT Scripts installed successfully."
-  SUMMARY: |
-    This is a test of the goatscripts github action. The action simply installs the scripts and sets the path so you can use them immediately.
-    Use this file as an example to install and use the scripts.
 
 jobs:
   
@@ -22,9 +18,13 @@ jobs:
       with:
         path: .custom/goatscripts
     
-    - run: |
-        run-with-summary ls -la .custom/goatscripts
+    - run: run-with-summary ls -la .custom/goatscripts
+      env:
+        SUCCESS: "goatscripts directory"
+        SUMMARY: |
+          This is a test of the goatscripts github action. The action simply installs the scripts and sets the path so you can use them immediately.
+          Use this file as an example to install and use the scripts.
 
     - run: run-with-summary which run-with-summary
-      env: 
+      env:
         SUCCESS: "run-with-summary is installed."
