@@ -1,7 +1,8 @@
 name: 'goatscripts'
 description: 'Installs jonpugh/goatscripts for improved operator experience.'
-color: green
-icon: zap
+branding:
+  color: green
+  icon: zap
 inputs:
   path:
     description: 'Path to install the scripts. Will be automatically included in the shell PATH.'
