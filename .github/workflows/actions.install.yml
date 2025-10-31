@@ -22,4 +22,4 @@ jobs:
     
     - run: |
         which run-with-summary
-        run-with-summary echo "GOAT Scripts installed: $(ls -la .goatscripts)"
+        run-with-summary ls -la .goatscripts
