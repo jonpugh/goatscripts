@@ -2,7 +2,7 @@ name: 'Install GOAT Scripts'
 description: 'Install goatscripts.'
 inputs:
   path:
-    description: 'Path to install the scripts. Will be automatically included in the shell PATH.
+    description: 'Path to install the scripts. Will be automatically included in the shell PATH.'
     default: '.goatscripts'
 
 runs:
