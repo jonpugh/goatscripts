@@ -1,5 +1,5 @@
-name: 'Install GOAT Scripts'
-description: 'Install goatscripts.'
+name: 'goatscripts'
+description: 'Installs jonpugh/goatscripts for improved operator experience.'
 color: green
 icon: zap
 inputs:
