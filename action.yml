@@ -1,4 +1,4 @@
-name: 'goatscripts'
+name: 'jonpugh/goatscripts'
 description: 'Installs jonpugh/goatscripts for improved operator experience.'
 branding:
   color: green
