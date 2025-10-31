@@ -21,4 +21,4 @@ runs:
     - name: Set path
       shell: bash
       run: |
-        echo "./${{ inputs.path }}/src" >> $GITHUB_PATH
+        echo "$(pwd)/${{ inputs.path }}/src" >> $GITHUB_PATH
