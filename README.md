@@ -40,6 +40,7 @@ jobs:
       - name: Install helper scripts
         uses: jonpugh/goatscripts@main
 
+      # NOTE: You do NOT have to echo to $GITHUB_STEP_SUMMARY! The run-with-summary script does it automatically 👏
       - run: run-with-summary ls -la goatscripts
 ```
 
