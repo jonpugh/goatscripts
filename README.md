@@ -36,6 +36,10 @@ jobs:
     name: "Test GitHub Actions"
     steps:
       - uses: jonpugh/goatscripts@v1
+
+      - name: Install helper scripts
+        uses: jonpugh/goatscripts@main
+
       - run: run-with-summary ls -la goatscripts
 ```
 
