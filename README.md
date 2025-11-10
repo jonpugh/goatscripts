@@ -1,5 +1,8 @@
 # goatscripts
-## git, operations, and things
+## good old automation tools
+## general operations administrator tricks
+## git operations and things
+
 Bash to basics.
 
 These scripts are things I've been using in different places over the years.
