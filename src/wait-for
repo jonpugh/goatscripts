@@ -71,7 +71,7 @@ fi
 while ! (runCommand)
 do
     # Exit with an error if timeout is reached.
-    [ "$SECONDS" -gt "$TIMEOUT" ] && echo "Timeout exceeded. Command failed for $SECONDS seconds." && exit 1
+    [ "$SECONDS" -gt "$TIMEOUT" ] && echo && echo "Timeout exceeded. Command failed for $SECONDS seconds." && exit 1
 
     # Pause for $SLEEP seconds.
     sleep $SLEEP
