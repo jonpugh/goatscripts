@@ -1,5 +1,5 @@
 # Test the scripts.
-name: Run with Summary
+name: Test Scripts
 on:
   pull_request:
     branches:
