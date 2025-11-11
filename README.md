@@ -75,9 +75,9 @@ jobs:
 
 ## wait-for
 
-Use for pausing scripts until a command passes.
+runs a command until it passes or timeout is reached.
 
-Use cases:
+### Use cases:
 
 - Docker containers that have to wait for a database server to start
 - Test scripts that have to wait for your project to initialize.
@@ -86,4 +86,14 @@ Use cases:
 ```
 wait-for mysql-ready
 wait-for curl https://deploy-url/ready
+```
+
+### Options
+
+```
+# SLEEP: Length of time to wait in-between running the command.
+# CHAR: The character to print after every command run.
+# OUTPUT: Set to 'all' to print all output, set to 'out' to print just stdOut, set to "err" to print just stdErr.
+# TIMEOUT: Default: 30. Exit with an error if process doesn't pass within this time.
+# SILENT: Set to 1 to not print any output except the timeout exceeded error. Useful when running from other scripts. See wait-mysql
 ```
