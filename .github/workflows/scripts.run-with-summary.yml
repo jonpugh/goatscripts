@@ -22,15 +22,15 @@ env:
 jobs:
   
   run-with-summary:
-    name: run-with-summary success
+    name: run-with-summary
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: run-with-summary
+    - name: run-with-summary success
       run: |
         run-with-summary ls -la
 
-    - name: run-with-summary without process details.
+    - name: run-with-summary hide
       env:
         HIDE: true
         SUCCESS: Processes
@@ -47,12 +47,12 @@ jobs:
         run-with-summary ping w3.org -c5
 
   wait-for:
-    name: wait-for script
+    name: wait-for success
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     
-    - name: wait-for bad-command
+    - name: wait-for failure
       continue-on-error: true
       env: 
         TIMEOUT: 2
