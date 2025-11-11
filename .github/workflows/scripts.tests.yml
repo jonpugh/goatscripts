@@ -1,0 +1,68 @@
+# Test the scripts.
+name: Test Scripts
+on:
+  pull_request:
+    branches:
+    - main
+env:
+  # Allow running run-with-summary command.
+  PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
+
+jobs:
+  
+  run-with-summary:
+    name: run-with-summary script
+    runs-on: ubuntu-latest
+    env:
+      SUCCESS: "Script run-with-summary succeeded! :white_check_mark:"
+      ERROR: "run-with-summary Failed! :x:"
+      SUMMARY: |
+        - Environment: https://pr${{ github.event.number }}.demo.site
+        - Pull Request: ${{github.event.pull_request.html_url }}
+    
+      # Show extra details
+      DEBUG: yes
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: run-with-summary success
+      env:
+        SUCCESS: "Directory List :white_check_mark:"
+      run: |
+        run-with-summary ls -la
+
+    - name: run-with-summary hide
+      env:
+        HIDE: true
+        SUCCESS: Processes
+        SUMMARY: This test should not show the process details table.
+      run: |
+        run-with-summary ps -aux
+
+    - name: run-with-summary failure
+      continue-on-error: true
+      env:
+        ERROR: "run-with-summary Failed on purpose! :x:"
+      run: |
+        echo $GITHUB_STEP_SUMMARY
+        run-with-summary ping w3.org -c5
+
+  wait-for:
+    name: wait-for script
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: wait-for failure
+      continue-on-error: true
+      env: 
+        TIMEOUT: 2
+      run: |
+        run-with-summary wait-for bad-command
+    
+    - name: wait-for success
+      continue-on-error: true
+      env: 
+        TIMEOUT: 5
+      run: |
+        run-with-summary wait-for sleep 2

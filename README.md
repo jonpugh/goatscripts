@@ -19,6 +19,9 @@ jobs:
     steps:
       - uses: jonpugh/goatscripts@v1
 ```
+## Scripts
+- `run-with-summary`: Runs a command and generates a markdown summary with output and execution details.
+- `wait-for`: Runs a command repeatedly until it passes.
 
 ## Run With Summary
 
@@ -70,3 +73,27 @@ jobs:
             Set SUMMARY env var to add *any* markdown **you want** to the report file.
 ```
 
+## wait-for
+
+runs a command until it passes or timeout is reached.
+
+### Use cases:
+
+- Docker containers that have to wait for a database server to start
+- Test scripts that have to wait for your project to initialize.
+- Better than "sleep": Sometimes you need to wait. Instead of sleeping a fixed number of seconds, run a command that will pass once the thing you need is ready.
+
+```
+wait-for mysql-ready
+wait-for curl https://deploy-url/ready
+```
+
+### Options
+
+```
+# SLEEP: Length of time to wait in-between running the command.
+# CHAR: The character to print after every command run.
+# OUTPUT: Set to 'all' to print all output, set to 'out' to print just stdOut, set to "err" to print just stdErr.
+# TIMEOUT: Default: 30. Exit with an error if process doesn't pass within this time.
+# SILENT: Set to 1 to not print any output except the timeout exceeded error. Useful when running from other scripts. See wait-mysql
+```
