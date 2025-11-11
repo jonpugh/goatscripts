@@ -59,9 +59,9 @@ jobs:
       run: |
         run-with-summary wait-for bad-command
     
-    - name: wait-for good command
+    - name: wait-for success
       continue-on-error: true
       env: 
-        TIMEOUT: 2
+        TIMEOUT: 5
       run: |
-        run-with-summary wait-for ping google.com -c 5
+        run-with-summary wait-for sleep 2
