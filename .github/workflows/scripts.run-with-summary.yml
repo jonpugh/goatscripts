@@ -50,3 +50,15 @@ jobs:
       run: |
         echo $GITHUB_STEP_SUMMARY
         run-with-summary ping w3.org -c5
+
+  wait-for:
+    name: wait-for failure
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: wait-for 5 seconds
+      continue-on-error: true
+      env: 
+        TIMEOUT: 5
+      run: |
+        run-with-summary wait-for ping bad-domain-123.com
