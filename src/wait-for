@@ -65,7 +65,7 @@ runCommand() {
 }
 
 if [ -z "${SILENT}" ]; then
-    devshop-log "Running command until it succeeds: $COMMAND"
+    echo "Running command until it succeeds: $COMMAND"
 fi
 
 while ! (runCommand)
