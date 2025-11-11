@@ -22,7 +22,7 @@ env:
 jobs:
   
   run-with-summary:
-    name: run-with-summary
+    name: run-with-summary script
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
         run-with-summary ping w3.org -c5
 
   wait-for:
-    name: wait-for success
+    name: wait-for script
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
