@@ -38,11 +38,6 @@ jobs:
       run: |
         run-with-summary ps -aux
 
-  run-with-summary-fail:
-    name: run-with-summary failure
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
     - name: run-with-summary failure
       continue-on-error: true
       env:
@@ -52,13 +47,21 @@ jobs:
         run-with-summary ping w3.org -c5
 
   wait-for:
-    name: wait-for failure
+    name: wait-for script
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: wait-for 5 seconds
+    
+    - name: wait-for bad-command
       continue-on-error: true
       env: 
-        TIMEOUT: 5
+        TIMEOUT: 2
       run: |
-        run-with-summary wait-for ping bad-domain-123.com
+        run-with-summary wait-for bad-command
+    
+    - name: wait-for good command
+      continue-on-error: true
+      env: 
+        TIMEOUT: 2
+      run: |
+        run-with-summary wait-for ping google.com -c 5
