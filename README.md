@@ -1,7 +1,5 @@
 # goatscripts
 ## good old automation tools
-## general operations administrator tricks
-## git operations and things
 
 Bash to basics.
 
@@ -97,3 +95,12 @@ wait-for curl https://deploy-url/ready
 # TIMEOUT: Default: 30. Exit with an error if process doesn't pass within this time.
 # SILENT: Set to 1 to not print any output except the timeout exceeded error. Useful when running from other scripts. See wait-mysql
 ```
+
+
+## History
+
+Originally developed during the course of building opendevshop.
+
+Moved to `operations/scripts` https://github.com/operations-project/scripts 
+
+Bringing it back to me. It's always been a personal project.
