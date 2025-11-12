@@ -66,3 +66,17 @@ jobs:
         TIMEOUT: 5
       run: |
         run-with-summary wait-for sleep 2
+
+  git-ref:
+    name: git-ref script
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: get current reference
+      run: |
+        REF=$(git-ref)
+        echo "Current ref: $REF" >> $GITHUB_STEP_SUMMARY
+        if [[ "$REF" != "${{ github.head_ref }}" ]]; then 
+          exit 1; 
+        fi
