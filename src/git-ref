@@ -43,5 +43,7 @@ if [[ -n $BRANCH ]]; then
 elif [[ -n $TAG ]]; then
   echo $TAG
 else
+  echo "No git tag or branch is checked out. git status:"
+  git status
   exit 1
 fi
