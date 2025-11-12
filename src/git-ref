@@ -14,6 +14,7 @@ If the PWD is in a DETACHED HEAD state, and there is no tag, exit with an error.
 
 BRANCH=`git symbolic-ref --quiet --short HEAD 2> /dev/null`
 TAG=`git describe --tags --exact-match 2> /dev/null`
+SHA=`git rev-parse HEAD 2> /dev/null`
 
 # Set up options for --type and --help.
 while [ $# -gt 0 ]; do
@@ -42,8 +43,9 @@ if [[ -n $BRANCH ]]; then
   echo $BRANCH
 elif [[ -n $TAG ]]; then
   echo $TAG
+elif [[ -n $SHA ]]; then
+  echo $SHA
 else
-  echo "No git tag or branch is checked out. git status:"
-  git status
+  echo "No git tag, branch or SHA detected."
   exit 1
 fi
