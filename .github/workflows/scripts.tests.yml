@@ -75,6 +75,7 @@ jobs:
 
     - name: get current reference
       run: |
+        git-ref
         REF=$(git-ref)
         echo "Current ref: $REF" >> $GITHUB_STEP_SUMMARY
         if [[ "$REF" != "${{ github.head_ref }}" ]]; then 
