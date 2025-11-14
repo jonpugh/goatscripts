@@ -71,7 +71,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - run: run-with-summary echo ${{ toJSON(github) }}
 
     - name: get current reference
       run: |
