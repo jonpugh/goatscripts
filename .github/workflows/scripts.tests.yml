@@ -9,7 +9,6 @@ env:
   PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
 
 jobs:
-  
   run-with-summary:
     name: run-with-summary script
     runs-on: ubuntu-latest
@@ -72,6 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - run: run-with-summary echo ${{ toJSON(github) }}
 
     - name: get current reference
       run: |
