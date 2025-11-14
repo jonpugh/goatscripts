@@ -9,7 +9,6 @@ env:
   PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
 
 jobs:
-  
   run-with-summary:
     name: run-with-summary script
     runs-on: ubuntu-latest
@@ -66,3 +65,19 @@ jobs:
         TIMEOUT: 5
       run: |
         run-with-summary wait-for sleep 2
+
+  git-ref:
+    name: git-ref script
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: get current reference
+      run: |
+        git-ref
+        REF=$(git-ref)
+        echo "Current ref: $REF" >> $GITHUB_STEP_SUMMARY
+        if [[ "$REF" != "${{ github.sha }}" ]]; then 
+          echo "Output of git-ref script ($REF) does not match github.sha (${{ github.sha }})"
+          exit 1; 
+        fi
