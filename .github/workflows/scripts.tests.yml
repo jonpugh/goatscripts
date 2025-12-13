@@ -76,7 +76,8 @@ jobs:
       run: |
         git-ref
         REF=$(git-ref)
-        echo "Current ref: $REF" >> $GITHUB_STEP_SUMMARY
+        TYPE=$(git-ref --type)
+        echo "Current ref: $REF $TYPE" >> $GITHUB_STEP_SUMMARY
         if [[ "$REF" != "${{ github.sha }}" ]]; then 
           echo "Output of git-ref script ($REF) does not match github.sha (${{ github.sha }})"
           exit 1; 
