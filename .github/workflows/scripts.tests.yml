@@ -72,7 +72,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: get current reference
+    - name: Check SHA
       run: |
         git-ref
         git-ref --type
@@ -90,15 +90,15 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
 
-    - name: get current reference
+    - name: Check branch
       run: |
         git-ref
         git-ref --type
         REF=$(git-ref)
         TYPE=$(git-ref --type)
         echo "Current ref: $REF $TYPE" >> $GITHUB_STEP_SUMMARY
-        if [[ "$REF" != "${{ github.sha }}" ]]; then 
-          echo "Output of git-ref script ($REF) does not match github.sha (${{ github.sha }})"
+        if [[ "$REF" != "${{ github.head_ref }}" ]]; then 
+          echo "Output of git-ref script ($REF) does not match github.head_ref (${{ github.head_ref }})"
           exit 1; 
         fi
         if [[ "$TYPE" != "branch" ]]; then
