@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 usage() {
-  echo -n "git-ref [OPTION]... [FILE]...
+  echo -n "
+git-ref [OPTIONS]
 
-Prints the branch or tag of the current git repository.
+Print the branch or tag of the current git repository.
+
+Options:
 
   -t, --type    Print the git reference type ('branch' or 'tag').
 
-If PWD is tracking a branch, print "branch".
-If PWD is in a DETACHED HEAD state, and there is a tag for the SHA, print "tag".
-If the PWD is in a DETACHED HEAD state, and there is no tag, exit with an error.
+    If PWD is tracking a branch, print 'branch'.
+    If PWD is in a DETACHED HEAD state, and there is a tag for the SHA, print 'tag'.
+    If the PWD is in a DETACHED HEAD state, and there is no tag, print 'sha'.
 "
 }
 
