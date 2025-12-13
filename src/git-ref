@@ -24,7 +24,10 @@ while [ $# -gt 0 ]; do
           echo "branch"
         elif [[ -n $TAG ]]; then
           echo "tag"
+        elif [[ -n $SHA ]]; then
+          echo "sha"
         else
+          echo "Unable to detect branch, tag, or sha."
           exit 1
         fi
 
