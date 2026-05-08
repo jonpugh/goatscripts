@@ -26,6 +26,7 @@ jobs:
           Use this file as an example to install and use the scripts.
 
     - run: run-with-summary which run-with-summary
+      working-directory: .custom
       env:
         SUCCESS: "run-with-summary is installed."
         DEBUG: yes
