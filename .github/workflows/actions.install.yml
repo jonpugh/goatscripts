@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: jonpugh/goatscripts@main
+    - uses: jonpugh/goatscripts@bug/path
       with:
         path: .custom/goatscripts
     
@@ -30,6 +30,7 @@ jobs:
       env:
         SUCCESS: "run-with-summary is installed."
         DEBUG: yes
+        
         
     - run: run-with-summary curl https://api.github.com/
       env:
