@@ -23,4 +23,4 @@ runs:
       env:
         SRC_PATH: ${{ inputs.path }}/src
       run: |
-        echo "$WORKSPACE/$SRC_PATH" >> $GITHUB_PATH
+        echo "$GITHUB_WORKSPACE/$SRC_PATH" >> $GITHUB_PATH
