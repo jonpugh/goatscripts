@@ -32,6 +32,7 @@ run_test() {
     echo -e "${RED}FAILED${NC}"
     echo "  Error: $output"
   fi
+  echo
 }
 
 echo "Running get-request tests against $TEST_URL"
