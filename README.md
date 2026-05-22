@@ -20,6 +20,7 @@ jobs:
 ## Scripts
 - `run-with-summary`: Runs a command and generates a markdown summary with output and execution details.
 - `wait-for`: Runs a command repeatedly until it passes.
+- `git-ref`: Prints the branch or tag name of a git clone.
 
 ## Run With Summary
 
@@ -96,6 +97,21 @@ wait-for curl https://deploy-url/ready
 # SILENT: Set to 1 to not print any output except the timeout exceeded error. Useful when running from other scripts. See wait-mysql
 ```
 
+## `git-ref`
+
+```
+git-ref [OPTIONS]
+
+Print the branch or tag of the current git repository.
+
+Options:
+
+  -t, --type    Print the git reference type ('branch' or 'tag').
+
+    If PWD is tracking a branch, print 'branch'.
+    If PWD is in a DETACHED HEAD state, and there is a tag for the SHA, print 'tag'.
+    If the PWD is in a DETACHED HEAD state, and there is no tag, print 'sha'.
+```
 
 ## History
 

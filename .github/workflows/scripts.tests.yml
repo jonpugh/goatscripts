@@ -9,7 +9,6 @@ env:
   PATH: ./src:./bin:./vendor/bin:/usr/local/bin:/usr/bin:/bin
 
 jobs:
-  
   run-with-summary:
     name: run-with-summary script
     runs-on: ubuntu-latest
@@ -66,3 +65,43 @@ jobs:
         TIMEOUT: 5
       run: |
         run-with-summary wait-for sleep 2
+
+  git-ref:
+    name: git-ref script
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Check SHA
+      run: |
+        git-ref
+        git-ref --type
+        REF=$(git-ref)
+        TYPE=$(git-ref --type)
+        echo "Current ref: $REF $TYPE" >> $GITHUB_STEP_SUMMARY
+        if [[ "$REF" != "${{ github.sha }}" ]]; then 
+          echo "Output of git-ref script ($REF) does not match github.sha (${{ github.sha }})"
+          exit 1; 
+        fi
+        if [[ "$TYPE" != "sha" ]]; then
+          echo "git-ref did not return 'sha'."
+        fi
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
+
+    - name: Check branch
+      run: |
+        git-ref
+        git-ref --type
+        REF=$(git-ref)
+        TYPE=$(git-ref --type)
+        echo "Current ref: $REF $TYPE" >> $GITHUB_STEP_SUMMARY
+        if [[ "$REF" != "${{ github.head_ref }}" ]]; then 
+          echo "Output of git-ref script ($REF) does not match github.head_ref (${{ github.head_ref }})"
+          exit 1; 
+        fi
+        if [[ "$TYPE" != "branch" ]]; then
+          echo "git-ref did not return 'branch'."
+        fi
+ 
