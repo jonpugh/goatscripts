@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# Test script for get-request
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+GET_REQUEST="$SCRIPT_DIR/src/get-request"
+TEST_URL="https://www.github.com"
+
+# Colors for output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+test_count=0
+passed_count=0
+
+run_test() {
+  local test_name=$1
+  local metric=$2
+  local args=${3:-}
+  
+  test_count=$((test_count + 1))
+  echo -n "Test $test_count: $test_name ... "
+  
+  if output=$("$GET_REQUEST" "$metric" "$TEST_URL" $args 2>&1); then
+    echo -e "${GREEN}PASSED${NC}"
+    echo "  Output: $output"
+    passed_count=$((passed_count + 1))
+  else
+    echo -e "${RED}FAILED${NC}"
+    echo "  Error: $output"
+  fi
+}
+
+echo "Running get-request tests against $TEST_URL"
+echo "==========================================="
+echo ""
+
+run_test "time metric" "time"
+run_test "server-time metric" "server-time"
+run_test "size metric (bytes)" "size"
+run_test "size metric (KB)" "size" "KB"
+run_test "size metric (MB)" "size" "MB"
+run_test "http-code metric" "http-code"
+run_test "body metric" "body"
+run_test "headers metric" "headers"
+
+echo ""
+echo "==========================================="
+echo "Tests completed: $passed_count/$test_count passed"
+
+if [ $passed_count -eq $test_count ]; then
+  exit 0
+else
+  exit 1
+fi
