@@ -82,7 +82,7 @@ case $METRIC in
     curl -s "$URL"
     ;;
   headers)
-    curl -s -i "$URL" | head -n -1
+    curl -s -i "$URL" | sed '/^$/q'
     ;;
   *)
     echo "Unknown metric: $METRIC"
