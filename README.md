@@ -15,7 +15,7 @@ Help yourself.
 jobs:
   example:
     steps:
-      - uses: jonpugh/goatscripts@v1
+      - uses: jonpugh/goatscripts@v1.2
 ```
 ## Scripts
 - `run-with-summary`: Runs a command and generates a markdown summary with output and execution details.
@@ -37,7 +37,7 @@ jobs:
   example:
     name: "Test GitHub Actions"
     steps:
-      - uses: jonpugh/goatscripts@v1
+      - uses: jonpugh/goatscripts@v1.2
 
       - name: Install helper scripts
         uses: jonpugh/goatscripts@main
