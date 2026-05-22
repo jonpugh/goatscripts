@@ -113,6 +113,47 @@ Options:
     If the PWD is in a DETACHED HEAD state, and there is no tag, print 'sha'.
 ```
 
+## `get-request`
+
+```
+get-request METRIC URL [OPTIONS]
+
+Get specific information from a web request.
+
+Possible METRICs:
+
+  time
+  The total time the request took in milliseconds.
+
+  server-time
+  The server response time (time to first byte) in milliseconds.
+
+  size [FORMAT]
+  The response body size. FORMAT can be: byte (default), KB, MB
+
+  http-code
+  The HTTP status code returned by the server.
+
+  body
+  The response body content.
+
+  headers
+  The response headers.
+
+  @TODO: more options
+
+Examples
+
+  get-request time https://www.google.com
+  get-request server-time https://www.google.com
+  get-request size https://www.google.com
+  get-request size https://www.google.com KB
+  get-request http-code https://www.google.com
+  get-request body https://www.google.com
+  get-request headers https://www.google.com
+
+```
+
 ## History
 
 Originally developed during the course of building opendevshop.
