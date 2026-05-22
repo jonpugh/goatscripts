@@ -105,3 +105,13 @@ jobs:
           echo "git-ref did not return 'branch'."
         fi
  
+  get-request:
+    name: get-request script
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: actions/checkout@v4
+    - uses: jonpugh/goatscripts@main
+    - run: |
+        run-with-summary \
+          ./tests/get-request-test

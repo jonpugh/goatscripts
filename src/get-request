@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+usage() {
+  echo -n "
+get-request METRIC URL [OPTIONS]
+
+Get specific information from a web request.
+
+Possible METRICs:
+
+  time
+  The total time the request took in milliseconds.
+
+  server-time
+  The server response time (time to first byte) in milliseconds.
+
+  size [FORMAT]
+  The response body size. FORMAT can be: byte (default), KB, MB
+
+  http-code
+  The HTTP status code returned by the server.
+
+  body
+  The response body content.
+
+  headers
+  The response headers.
+
+  @TODO: more options
+
+Examples
+
+  get-request time https://www.google.com
+  get-request server-time https://www.google.com
+  get-request size https://www.google.com
+  get-request size https://www.google.com KB
+  get-request http-code https://www.google.com
+  get-request body https://www.google.com
+  get-request headers https://www.google.com
+
+"
+}
+
+if [[ $# -lt 2 ]]; then
+  usage
+  exit 1
+fi
+
+METRIC=$1
+URL=$2
+FORMAT=${3:-byte}
+
+case $METRIC in
+  time)
+    curl -s -o /dev/null -w '%{time_total}' "$URL" | awk '{printf "%.0f\n", $1 * 1000}'
+    ;;
+  server-time)
+    curl -s -o /dev/null -w '%{time_starttransfer}' "$URL" | awk '{printf "%.0f\n", $1 * 1000}'
+    ;;
+  size)
+    size_bytes=$(curl -s -o /dev/null -w '%{size_download}' "$URL")
+    case "$FORMAT" in
+      byte)
+        printf "%.0f\n" "$size_bytes"
+        ;;
+      KB)
+        awk "BEGIN {printf \"%.2f\n\", $size_bytes / 1024}"
+        ;;
+      MB)
+        awk "BEGIN {printf \"%.2f\n\", $size_bytes / (1024 * 1024)}"
+        ;;
+      *)
+        echo "Unknown format: $FORMAT (use byte, KB, or MB)"
+        exit 1
+        ;;
+    esac
+    ;;
+  http-code)
+    curl -s -o /dev/null -w '%{http_code}' "$URL"
+    echo ""
+    ;;
+  body)
+    curl -s "$URL"
+    ;;
+  headers)
+    curl -s -i "$URL" | sed '/^$/q'
+    ;;
+  *)
+    echo "Unknown metric: $METRIC"
+    usage
+    exit 1
+    ;;
+esac
