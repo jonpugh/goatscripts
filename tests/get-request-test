@@ -6,7 +6,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GET_REQUEST="$SCRIPT_DIR/src/get-request"
-TEST_URL="https://www.github.com"
+TEST_URL="https://api.github.com"
 
 # Colors for output
 GREEN='\033[0;32m'
