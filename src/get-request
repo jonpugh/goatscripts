@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+usage() {
+  echo -n "
+get-request METRIC URL
+
+Get specific information from a web request.
+
+Possible METRICs:
+
+  time
+  The amount of time the request took in milliseconds.
+
+  @TODO: size code body headers etc
+
+Examples
+
+  get-request time https://www.google.com
+
+"
+}
+
+usage
+
+
